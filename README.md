@@ -18,8 +18,9 @@ my-achievements.md → your resume
 
 ## The Goal
 
-Get noticed by YC founders and SF startup recruiters.
-Every post should make someone think: "I want this guy on my team."
+Get noticed by YC founders and SF startup engineers and recruiters.
+Grow his network of high-valued people in tech industry
+Every post should make someone think: "I want this guy on my team." or "I want to work with this guy."
 
 ## How to Give Me a Rough Idea
 
