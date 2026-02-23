@@ -54,6 +54,25 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
  Overdo the white space (every single line broken up = exhausting to read too)
  Use too many emojis
 
+### Punctuation & Capitalization (CRITICAL):
+ No periods at the end of sentences — LinkedIn pros don't use them, neither does Edward
+ No unnecessary punctuation in general
+ Do NOT capitalize the first word of a sentence by default
+ Capitalization is used to signal importance only:
+   - normal word at start of sentence → lowercase
+   - Important word (anywhere) → Capitalize First Letter
+   - SUPER important word → ALL CAPS
+
+Examples:
+ wrong  →  "I built a system that fixes its own prompts."
+ right   →  "i built a system that fixes its own prompts"
+
+ wrong  →  "This is the most important thing I learned."
+ right   →  "this is the most Important thing i learned"
+
+ wrong  →  "You need to ship fast."
+ right   →  "you need to SHIP"
+
 ### Format guide:
  Hook line (first 1-2 lines — this is what shows before 'see more')
  White space
