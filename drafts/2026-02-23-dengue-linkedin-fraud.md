@@ -12,7 +12,7 @@ it gave me time to think
 
 here's what i found:
 
-**most LinkedIn users are fraud**
+𝗺𝗼𝘀𝘁 LinkedIn users are fraud
 
 myself included, and i'm not afraid to say it
 
@@ -20,13 +20,13 @@ people post half-finished projects like they just changed the world
 
 i've done it. you've probably done it too
 
-**the world will operate just fine without you**
+𝘁𝗵𝗲 world will operate just fine without you
 
 there are maybe 10 people on this planet who genuinely care about you
 
 find them, keep them close, treat them well
 
-**being alone with people who don't care about you is worse than just being alone**
+𝗯𝗲𝗶𝗻𝗴 alone with people who don't care about you is worse than just being alone
 
 i spent a few days with someone who didn't really care
 

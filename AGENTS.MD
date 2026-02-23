@@ -85,3 +85,27 @@ It contains Edward's tone, capitalization rules, ammunition (real numbers), ICP,
 
 1. A CTA — either "connect with me" or "if you want to see more, follow me"
 2. `Ave Christus Rex` — always, no exceptions, last line of every post
+
+## Post Format (NON-NEGOTIABLE)
+
+All posts must be 100% copy-paste ready for LinkedIn.
+NEVER use markdown formatting in the final post output:
+- No pound signs (#) for headers
+- No asterisks (*) for bold or bullet points
+- No underscores (_) for italic
+- No backticks, no markdown syntax of any kind
+
+LinkedIn does NOT render markdown. A post with **bold** will literally show **bold** with the stars.
+
+## How to Emphasize Text on LinkedIn
+
+Edward's emphasis system (in order of preference):
+1. ALL CAPS — for the most important words (e.g. "you need to SHIP")
+2. Capitalized First Letter — for important words (e.g. "this is the most Important thing")
+3. Unicode bold — for section headers in list-style posts only, use sparingly
+   - Convert text at yaytext.com or lingojam.com/BoldTextGenerator
+   - Example: 𝗺𝗼𝘀𝘁 𝗟𝗶𝗻𝗸𝗲𝗱𝗜𝗻 𝘂𝘀𝗲𝗿𝘀 𝗮𝗿𝗲 𝗳𝗿𝗮𝘂𝗱
+   - Only use when the post is structured as a numbered/list format
+4. Line breaks and white space — emphasis through isolation (put the key line alone on its own line)
+
+When in doubt: plain text + white space does more than any formatting trick.
