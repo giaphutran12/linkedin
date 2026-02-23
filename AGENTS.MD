@@ -110,6 +110,35 @@ Edward's emphasis system (in order of preference):
 
 When in doubt: plain text + white space does more than any formatting trick.
 
+## Spacing Rules (CRITICAL)
+
+Spacing is intentional, not mechanical. Do NOT double-space every line.
+
+same topic / same thought → single space (lines sit right next to each other, no blank line between them)
+new topic / new section / re-hook → double space (one blank line to create breathing room)
+
+How to judge:
+- if two lines are part of the same idea, they stay together
+- if you're switching to a new thought, new point, or new energy — give it space
+
+Example (wrong — everything double-spaced):
+i stopped posting for a week
+
+not by choice
+
+i got dengue fever here in vietnam
+
+just recovered a few days ago
+
+Example (right — intentional spacing):
+i stopped posting for a week
+not by choice
+
+i got dengue fever here in vietnam — the lethal kind
+just recovered a few days ago
+
+here's what i found:
+
 ## Lists and Points
 
 Whenever a post has multiple points, ALWAYS use a numbered system (1. 2. 3.)
