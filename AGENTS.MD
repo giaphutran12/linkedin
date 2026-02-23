@@ -98,17 +98,15 @@ NEVER use markdown formatting in the final post output:
 LinkedIn does NOT render markdown. A post with **bold** will literally show **bold** with the stars.
 
 ## How to Emphasize Text on LinkedIn
+LinkedIn does NOT support markdown or native bold/italic in posts.
+Unicode bold technically works but requires manually converting every word through an external tool — too much effort, not worth it.
 
-Edward's emphasis system (in order of preference):
+Edward's emphasis system (plain text only):
 1. ALL CAPS — for the most important words (e.g. "you need to SHIP")
 2. Capitalized First Letter — for important words (e.g. "this is the most Important thing")
-3. Unicode bold — for section headers in list-style posts only, use sparingly
-   - Convert text at yaytext.com or lingojam.com/BoldTextGenerator
-   - Example: 𝗺𝗼𝘀𝘁 𝗟𝗶𝗻𝗸𝗲𝗱𝗜𝗻 𝘂𝘀𝗲𝗿𝘀 𝗮𝗿𝗲 𝗳𝗿𝗮𝘂𝗱
-   - Only use when the post is structured as a numbered/list format
-4. Line breaks and white space — emphasis through isolation (put the key line alone on its own line)
+3. Isolation — put the key line alone on its own line with space around it
 
-When in doubt: plain text + white space does more than any formatting trick.
+No bold. No italic. No underline. Plain text + smart spacing does the job.
 
 ## Spacing Rules (CRITICAL)
 
@@ -143,13 +141,11 @@ here's what i found:
 
 Whenever a post has multiple points, ALWAYS use a numbered system (1. 2. 3.)
 Never use floating bold headers or bullet points without numbers.
-The number comes first, then the unicode bold label, then the explanation below it.
-
+The number comes first, then the plain text label, then the explanation below it.
 Example:
-1. 𝗺𝗼𝘀𝘁 LinkedIn users are fraud
+1. most LinkedIn users are fraud
 
 myself included...
 
-2. 𝘁𝗵𝗲 world will operate just fine without you
-
+2. the world will operate just fine without you
 there are maybe 10 people...
