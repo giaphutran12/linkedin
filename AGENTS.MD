@@ -109,3 +109,18 @@ Edward's emphasis system (in order of preference):
 4. Line breaks and white space — emphasis through isolation (put the key line alone on its own line)
 
 When in doubt: plain text + white space does more than any formatting trick.
+
+## Lists and Points
+
+Whenever a post has multiple points, ALWAYS use a numbered system (1. 2. 3.)
+Never use floating bold headers or bullet points without numbers.
+The number comes first, then the unicode bold label, then the explanation below it.
+
+Example:
+1. 𝗺𝗼𝘀𝘁 LinkedIn users are fraud
+
+myself included...
+
+2. 𝘁𝗵𝗲 world will operate just fine without you
+
+there are maybe 10 people...
