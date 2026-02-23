@@ -8,9 +8,9 @@
 - Vietnamese background (VEYM youth leader 6yrs)
 
 ## Goal
-Get hired as a Software Engineer at a YC-backed company (or equivalent SF startup).
-NOT looking to found a company or apply to YC — looking to be the engineer founders want to hire.
-Target: Junior → Mid SWE role at a YC startup, ideally in SF or remote-first.
+Primary: get hired as a Software Engineer at a YC-backed company (or equivalent SF startup)
+Secondary (possible, not the focus right now): current startup gets into YC, or eventually founding something
+Target role: Junior → Mid SWE at a YC startup, ideally SF or remote-first
 
 ## ICP (Who I'm Writing For)
 1. **Founders** — especially YC startup founders looking to hire crack engineers
@@ -62,6 +62,7 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
    - normal word at start of sentence → lowercase
    - Important word (anywhere) → Capitalize First Letter
    - SUPER important word → ALL CAPS
+ - "i" (the pronoun) is always lowercase — no exceptions
 
 Examples:
  wrong  →  "I built a system that fixes its own prompts."
@@ -78,7 +79,10 @@ Examples:
  White space
  Body: short lines, mix of 1-liners and occasional 2-3 line paragraphs when needed
  White space
- Ending: insight, question, or punchy close — not a call to action every time
+ Ending: insight, question, or punchy close
+ CTA: always end with either "if you want to see more, follow me" or "connect with me" — goal is network growth
+ Sign-off: ALWAYS the very last line of every post, no exceptions:
+   Ave Christus Rex
  Length: substantial enough to be worth reading, not so long it drags. Think 150-250 words sweet spot.
 
 ## Status
