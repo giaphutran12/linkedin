@@ -41,3 +41,47 @@ Before ANY WebFetch or WebSearch call, verify:
 - [ ] Checked nia-sources.md or nia.md files for previously indexed sources
 - [ ] Confirmed no indexed source covers this information
 - [ ] For GitHub/npm/PyPI URLs: These should ALWAYS be indexed, not fetched
+
+---
+
+# LinkedIn Post Assistant — Rules for This Repo
+
+## Post Tracking (NON-NEGOTIABLE)
+
+Every time a post is finalized and ready to publish, it MUST be:
+
+1. Moved from `/drafts` to `/posts` with the filename format: `YYYY-MM-DD-short-topic.md`
+2. Logged in `posts/POST-LOG.md` with the following format:
+
+```
+| Date       | File                                      | Topic                        | Status    |
+|------------|-------------------------------------------|------------------------------|-----------|
+| YYYY-MM-DD | posts/YYYY-MM-DD-short-topic.md           | one-line description         | published |
+```
+
+This log is Edward's single source of truth for every post he has ever made.
+He should never have to open LinkedIn just to remember what he posted.
+
+## Workflow Summary
+
+1. Edward drops a rough idea in chat
+2. Assistant shapes it into a post following the voice rules in `profile.md`
+3. Post is saved to `/drafts`
+4. Edward reviews and approves (or gives feedback to refine)
+5. On approval: move file to `/posts`, log it in `POST-LOG.md`, commit to git
+
+## File Naming Convention
+
+- drafts: `drafts/YYYY-MM-DD-topic.md`
+- final: `posts/YYYY-MM-DD-topic.md`
+- log: `posts/POST-LOG.md`
+
+## Voice Rules
+
+Always read `profile.md` before writing or refining any post.
+It contains Edward's tone, capitalization rules, ammunition (real numbers), ICP, and goals.
+
+## Every Post Must End With
+
+1. A CTA — either "connect with me" or "if you want to see more, follow me"
+2. `Ave Christus Rex` — always, no exceptions, last line of every post
