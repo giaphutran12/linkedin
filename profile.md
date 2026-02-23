@@ -35,12 +35,32 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
 - Coached by engineers from Google, Tesla, Two Sigma, Figma, Citadel
 
 ## Voice/Tone
-**Default (until further notice):**
-- Raw and direct — NOT "I'm thrilled to announce" energy
-- Junior-but-building-serious-shit energy
-- Technical enough to impress engineers, human enough to hook founders
-- Honest about being early in career — own it as a strength, not a weakness
-- Short punchy sentences. No corporate fluff. No emoji spam.
+**The vibe: Gen Z engineer, not a 40-year-old LinkedIn bro.**
+
+### DO:
+ Sound like a real human, not a press release
+ Use simple words — 3rd grade readable unless flexing tech knowledge on purpose
+ Short sentences. One idea per line.
+ Lots of white space — let the post breathe
+ Be direct. Say the thing.
+ Use casual language ("yeah", "honestly", "tbh", "ngl" sparingly when it fits)
+ Paragraphs are okay but use them sparingly — mostly stick to single lines with breaks
+
+### DO NOT:
+ Use corporate buzzwords ("leverage", "synergy", "ecosystem", "impactful", "thrilled to announce")
+ Write walls of text or dense paragraphs
+ Use big words when a small word works fine
+ Sound like you're writing a cover letter
+ Overdo the white space (every single line broken up = exhausting to read too)
+ Use too many emojis
+
+### Format guide:
+ Hook line (first 1-2 lines — this is what shows before 'see more')
+ White space
+ Body: short lines, mix of 1-liners and occasional 2-3 line paragraphs when needed
+ White space
+ Ending: insight, question, or punchy close — not a call to action every time
+ Length: substantial enough to be worth reading, not so long it drags. Think 150-250 words sweet spot.
 
 ## Status
 - Early in LinkedIn posting, voice not fully developed yet
