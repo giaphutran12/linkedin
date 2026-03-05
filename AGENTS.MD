@@ -83,8 +83,33 @@ It contains Edward's tone, capitalization rules, ammunition (real numbers), ICP,
 
 ## Every Post Must End With
 
-1. A CTA — either "connect with me" or "if you want to see more, follow me"
+1. A CTA — pick the one that makes sense for the post (see CTA Toolkit below)
 2. `Ave Christus Rex` — always, no exceptions, last line of every post
+
+## CTA Toolkit
+
+Every post needs a CTA, but not every post needs the same one.
+Pick the action that actually makes sense given what the post is about:
+
+1. like / react — when the post is a take or opinion people can agree with
+   example: "if this resonates, let me know"
+2. comment — when you want engagement, stories, or shared experiences
+   example: "drop your worst AI debugging story below"
+3. share / repost — when the post has utility or broad relevance
+   example: "send this to someone who uses Claude daily"
+4. follow — when the post showcases your expertise or ongoing journey
+   example: "if you want to see more, follow me"
+5. connect — when the post gives a reason to build a relationship
+   example: "if you're building in this space, connect with me"
+
+How to choose:
+- does the post ask a question or invite stories? → comment
+- does the post share a strong opinion? → like/react
+- does the post help someone specific? → share/repost ("send this to...")
+- does the post show what you're about? → follow
+- does the post signal you want to meet certain people? → connect
+
+Default if unsure: follow (safe, always relevant for growth)
 
 ## Post Format (NON-NEGOTIABLE)
 
@@ -136,6 +161,38 @@ i got dengue fever here in vietnam — the lethal kind
 just recovered a few days ago
 
 here's what i found:
+
+## Post Structure (Build/Project Posts)
+
+When a post is about something Edward built, follow this structure:
+
+1. hook — name the gap or problem (e.g. "there's no X for Y")
+2. problem — what the current experience looks like (pain, friction)
+3. why it's hard — technical or structural reasons this hasn't been solved (no API, no aggregator, etc.)
+4. emotional bridge — personal reaction that motivates the build ("this drove me CRAZY")
+5. solution with callback — tie back to the hook ("so i built X for Y", not "so i built one")
+6. walkthrough — what it actually does, step by step
+7. closing — impact, link, CTA
+
+DO NOT jump from problem straight to solution. The difficulty context and personal frustration
+need to come BETWEEN them. The harder the problem sounds, the more impressive the solution.
+
+## Writing Techniques
+
+1. reference comparisons — for unfamiliar tech, add a parenthetical comparison
+   example: "using TinyFish Mino browser agents (it's like browseruse but better)"
+   one comparison does more than a paragraph of explanation
+
+2. callback to the hook — when revealing the solution, reference the hook line
+   wrong: "so i built one"
+   right: "so i built Kayak for motorbikes" (ties back to "there's no Kayak for motorbikes")
+
+3. precision over vagueness — be accurate about whether features are automatic or user-controlled
+   wrong: "sorted by price"
+   right: "sortable by price or vehicle type"
+
+4. real numbers over README numbers — if Edward gives a number, use it. NEVER pull numbers from
+   docs/code and assume they're accurate. The user knows their actual product.
 
 ## Lists and Points
 

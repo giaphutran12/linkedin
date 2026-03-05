@@ -44,6 +44,7 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
  Lots of white space — let the post breathe
  Be direct. Say the thing.
  Use casual language ("yeah", "honestly", "tbh", "ngl" sparingly when it fits)
+ Keep internet-native slang when it fits the audience ("touching grass" not "going outside") — don't sanitize authentic language
  Paragraphs are okay but use them sparingly — mostly stick to single lines with breaks
 
 ### DO NOT:
@@ -59,20 +60,25 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
  No unnecessary punctuation in general
  Do NOT capitalize the first word of a sentence by default
  Capitalization is used to signal importance only:
-   - normal word at start of sentence → lowercase
-   - Important word (anywhere) → Capitalize First Letter
-   - SUPER important word → ALL CAPS
- - "i" (the pronoun) is always lowercase — no exceptions
+    - normal word at start of sentence → lowercase
+    - SUPER important word → ALL CAPS
+  - "i" (the pronoun) is always lowercase — no exceptions
+  - DEFAULT to ALL CAPS over Title Case — Title Case is rarely used
+  - ALL CAPS should be concentrated in the insight/takeaway section where the lesson lands, not scattered throughout the whole post
+  - only the words that need to HIT get caps — don't over-capitalize low-importance words
 
 Examples:
  wrong  →  "I built a system that fixes its own prompts."
  right   →  "i built a system that fixes its own prompts"
 
  wrong  →  "This is the most important thing I learned."
- right   →  "this is the most Important thing i learned"
+ right   →  "this is the most IMPORTANT thing i learned"
 
  wrong  →  "You need to ship fast."
  right   →  "you need to SHIP"
+
+ wrong  →  "they become a Liability" (title case — too soft)
+ right   →  "they become a LIABILITY" (ALL CAPS — hits harder)
 
 ### Format guide:
  Hook line (first 1-2 lines — this is what shows before 'see more')
@@ -80,7 +86,7 @@ Examples:
  Body: short lines, mix of 1-liners and occasional 2-3 line paragraphs when needed
  White space
  Ending: insight, question, or punchy close
- CTA: always end with either "if you want to see more, follow me" or "connect with me" — goal is network growth
+ CTA: pick the right one per post (see CTA Toolkit in AGENTS.md) — not every post needs "follow" or "connect"
  Sign-off: ALWAYS the very last line of every post, no exceptions:
    Ave Christus Rex
  Length: substantial enough to be worth reading, not so long it drags. Think 150-250 words sweet spot.
