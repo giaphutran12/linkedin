@@ -5,6 +5,7 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | File | Topic | Status |
 |------|------|-------|--------|
+| 2026-03-12 | posts/2026-03-12-autoresearch-overnight.md | Claude ran autoresearch overnight on MacBook — 22 experiments, 24.5% improvement | scheduled |
 | 2026-03-11 | posts/2026-03-11-tinyfish-ai-tinkerers.md | joined TinyFish, presented Viet Bike Scout at AI Tinkerers to 50+ engineers | scheduled |
 | 2026-03-05 | posts/2026-03-05-context-layer.md | context layers reduce agent hallucinations — Context7, Exa, Nia comparison | published |
 | 2026-03-05 | posts/2026-03-05-viet-bike-scout.md | built Kayak for motorbikes in Vietnam — TinyFish Mino parallel browser agents | published |
