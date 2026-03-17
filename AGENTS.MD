@@ -50,13 +50,13 @@ Before ANY WebFetch or WebSearch call, verify:
 
 Every time a post is finalized and ready to publish, it MUST be:
 
-1. Moved from `/drafts` to `/posts` with the filename format: `YYYY-MM-DD-short-topic.md`
+1. Moved from `/drafts` to `/posts/YYYY-MM-DD-short-topic/post.md` (each post is a folder containing `post.md` + optional images)
 2. Logged in `posts/POST-LOG.md` with the following format:
 
 ```
-| Date       | File                                      | Topic                        | Status    |
-|------------|-------------------------------------------|------------------------------|-----------|
-| YYYY-MM-DD | posts/YYYY-MM-DD-short-topic.md           | one-line description         | published |
+| Date       | Folder                                    | Topic                        | Status    | Impressions | Likes | Comments |
+|------------|-------------------------------------------|------------------------------|-----------|-------------|-------|----------|
+| YYYY-MM-DD | posts/YYYY-MM-DD-short-topic/             | one-line description         | published | 179         | 9     | 0        |
 ```
 
 This log is Edward's single source of truth for every post he has ever made.
@@ -73,7 +73,7 @@ He should never have to open LinkedIn just to remember what he posted.
 ## File Naming Convention
 
 - drafts: `drafts/YYYY-MM-DD-topic.md`
-- final: `posts/YYYY-MM-DD-topic.md`
+- final: `posts/YYYY-MM-DD-topic/post.md` (folder per post, can include images)
 - log: `posts/POST-LOG.md`
 
 ## Voice Rules
