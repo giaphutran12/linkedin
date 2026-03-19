@@ -5,6 +5,7 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
+| 2026-03-19 | posts/2026-03-19-saint-joseph-feast-day/ | happy Saint Joseph's feast day — the original strong silent type, Sopranos hook | published | — | — | — |
 | 2026-03-17 | posts/2026-03-17-lotushacks/ | joining LotusHacks x HackHarvard — Vietnam's biggest hackathon, backed by OpenAI and ElevenLabs | published | — | — | — |
 | 2026-03-16 | posts/2026-03-16-swe-not-sexy/ | software engineering is boring 80% of the time — build what they need, not what's sexy | published | 179 | 9 | 0 |
 | 2026-03-13 | posts/2026-03-13-x-algorithm-typescript/ | rebuilt X's recommendation algorithm from scratch in TypeScript — 5-stage pipeline, Two-Tower neural net, 3.6KB model | published | 993 | 25 | 11 |
