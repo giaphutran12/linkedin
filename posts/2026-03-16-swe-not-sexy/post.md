@@ -1,4 +1,4 @@
-software engineering is boring 80% of the time
+![alt text](image.png)software engineering is boring 80% of the time
 and nobody talks about it
 
 you debug the same thing for hours, sometimes days
