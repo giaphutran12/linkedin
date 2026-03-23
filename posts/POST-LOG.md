@@ -5,6 +5,8 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
+| 2026-03-23 | posts/2026-03-23-lotushacks-smurf/ | MIT researcher at LotusHacks won 10 of 20 prizes — Coco and Inventra, reminder not to judge a book by its cover | published | — | — | — |
+| 2026-03-21 | posts/2026-03-21-day-1-lotushacks/ | LotusHacks day 1 at 3 am — building a Notion interface where agents pick up tasks and ship them | published | — | — | — |
 | 2026-03-19 | posts/2026-03-19-saint-joseph-feast-day/ | happy Saint Joseph's feast day — the original strong silent type, Sopranos hook | published | — | — | — |
 | 2026-03-17 | posts/2026-03-17-lotushacks/ | joining LotusHacks x HackHarvard — Vietnam's biggest hackathon, backed by OpenAI and ElevenLabs | published | — | — | — |
 | 2026-03-16 | posts/2026-03-16-swe-not-sexy/ | software engineering is boring 80% of the time — build what they need, not what's sexy | published | 179 | 9 | 0 |
