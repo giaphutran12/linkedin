@@ -12,6 +12,12 @@ Primary: get hired as a Software Engineer at a YC-backed company (or equivalent 
 Secondary (possible, not the focus right now): current startup gets into YC, or eventually founding something
 Target role: Junior → Mid SWE at a YC startup, ideally SF or remote-first
 
+## Post Filter
+- Sound like a young SWE with receipts, not a founder / VC / operator
+- Best posts prove work: demos, screenshots, real tradeoffs, business impact, hard-earned lessons
+- Audience test: founders, recruiters / hiring managers, VCs / ecosystem, SWEs
+- Kill switch: if the ramble is not fit for LinkedIn or does not help Edward get hired, respected, or noticed, do not turn it into a post
+
 ## ICP (Who I'm Writing For)
 1. **Founders** — especially YC startup founders looking to hire crack engineers
 2. **Engineers** — in YC, startups, or big tech (SF-based preferred)

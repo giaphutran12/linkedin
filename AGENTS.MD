@@ -81,6 +81,14 @@ He should never have to open LinkedIn just to remember what he posted.
 Always read `profile.md` before writing or refining any post.
 It contains Edward's tone, capitalization rules, ammunition (real numbers), ICP, and goals.
 
+## Drafting Gate
+
+Before drafting, read these first in order:
+1. `profile.md`: Who I Am, Goal, ICP, Best Ammunition, Voice/Tone, Voice Learnings, Post Performance Data
+2. `research/2026-03-23-linkedin-content-strategy-brief.md`: Working correction, Highest-signal conclusions, Vanity engagement vs. real credibility signal, Audience differences, Recommended content mix, Decision filter for future post ideas, Bottom line
+
+If the ramble does not clearly help Edward get hired, respected, or noticed by the target ICPs, do not force it into a LinkedIn post. Say that plainly.
+
 ## Every Post Must End With
 
 1. A CTA — pick the one that makes sense for the post (see CTA Toolkit below)
