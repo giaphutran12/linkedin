@@ -89,6 +89,17 @@ Before drafting, read these first in order:
 
 If the ramble does not clearly help Edward get hired, respected, or noticed by the target ICPs, do not force it into a LinkedIn post. Say that plainly.
 
+## Boss Visibility Rule (NON-NEGOTIABLE)
+
+Assume EVERY post Edward publishes will be seen by his current boss.
+
+That means:
+- do not write CTAs or lines that sound like Edward is publicly job hunting unless he explicitly asks for that
+- do not write anything that reads like dissatisfaction with his current team, boss, or job
+- do not frame posts like "if you're hiring me" or "looking for my next opportunity" by default
+- prefer boss-safe CTAs: comment prompts, follow prompts, share prompts, or broad industry discussion prompts
+- if a founder/recruiter angle is useful, make it signal-rich without making Edward look publicly available
+
 ## Every Post Must End With
 
 1. A CTA — pick the one that makes sense for the post (see CTA Toolkit below)

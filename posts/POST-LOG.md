@@ -5,6 +5,8 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
+| 2026-03-25 | posts/2026-03-25-token-burn/ | Jensen Huang token burn take — 77.8M tokens in one day changed how i think about AI-native engineering | scheduled | — | — | — |
+| 2026-03-24 | posts/2026-03-24-aden-cold-dm/ | YC founder cold DM — proof of work matters more than profile polish | scheduled | — | — | — |
 | 2026-03-23 | posts/2026-03-23-lotushacks-smurf/ | MIT researcher at LotusHacks won 10 of 20 prizes — Coco and Inventra, reminder not to judge a book by its cover | published | — | — | — |
 | 2026-03-21 | posts/2026-03-21-day-1-lotushacks/ | LotusHacks day 1 at 3 am — building a Notion interface where agents pick up tasks and ship them | published | — | — | — |
 | 2026-03-19 | posts/2026-03-19-saint-joseph-feast-day/ | happy Saint Joseph's feast day — the original strong silent type, Sopranos hook | published | — | — | — |
