@@ -3,9 +3,12 @@
 ## Who I Am
 - 22 years old, Full Stack AI Engineer
 - First real job at a startup in Vancouver (BUILD LAUNCH ITERATE)
+- Product Growth Intern at TinyFish
+- Got hired by TinyFish after building an app on top of the TinyFish API (formerly Mino) before the interview — basically doing the intern job before getting the role
 - Also Software Engineer Resident at Headstarter
 - Currently at Douglas College (SFU Transfer 2026), 4x honour roll, 1x Dean's List
 - Vietnamese background (VEYM youth leader 6yrs)
+- Catholic
 
 ## Goal
 Primary: get hired as a Software Engineer at a YC-backed company (or equivalent SF startup)
@@ -39,6 +42,10 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
 - Serverless Image Style Transfer → 95% server-side cost reduction
 - Headstarter → 163+ commits on 7-day deadlines, 40% Career Capital increase
 - Coached by engineers from Google, Tesla, Two Sigma, Figma, Citadel
+- TinyFish company context → $47M Series A, SF-based AI infra startup, backed by ICONIQ, USVP, MongoDB Ventures, serving Google, DoorDash, and ClassPass. Current API/product name is TinyFish (formerly Mino)
+- TinyFish hiring story → applied, built a TinyFish API app before the interview, got invited for a 15-minute interview because the work already showed fit
+- TinyFish / meetup work → secured $300 sponsorship for the next meetup, helping fund a speaker flying from Singapore to Vietnam for April 18
+- TinyFish / community signal → gave a demo at the March meetup
 
 ## Voice/Tone
 **The vibe: Gen Z engineer, not a 40-year-old LinkedIn bro.**
@@ -60,6 +67,26 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
  Sound like you're writing a cover letter
  Overdo the white space (every single line broken up = exhausting to read too)
  Use too many emojis
+
+## Deeper Motivation
+
+- Faith is not a side detail. Catholicism is a real part of Edward's operating system
+- The parable of the talents is a core frame: talent is not owned, it is entrusted by God and must be used well
+- Strong internal driver: do not bury what God gave you
+- Ambition is not just for money, aura, or status. The higher frame is stewardship, excellence, and glorifying God through work
+- Edward wants to break the stereotype that Catholics / Christians are soft, lazy, unintelligent, or passive
+- Best faith-related posts should frame faith as discipline, courage, responsibility, gratitude, and stewardship
+- Avoid turning faith posts into culture-war rants or anti-atheist posts. Keep them centered on Edward's own standard, responsibility, and witness
+
+## Story Bank
+
+- People told Edward he was stupid. That makes current proof-of-work, leadership, tutoring, and startup momentum more powerful
+- Edward wants to be visibly Catholic and visibly excellent at the same time
+- TinyFish story: instead of just applying, Edward built on the API first, posted it publicly, and got hired because the proof-of-work was already there
+- TinyFish sponsorship story is strong because it shows initiative, trust, and real-world leverage: ask, nudge, deliver, make the event happen
+- Hackathons, meetups, demos, and community building are not random activities. They connect to the bigger mission of using gifts fully
+- Math tutoring is best framed honestly as founding a small tutoring business, not pretending it was some big operation
+- Early hustle story bank: flipping League accounts in grade 7 and small arbitrage-style reselling shows entrepreneurial instinct early
 
 ### Punctuation & Capitalization (CRITICAL):
  No periods at the end of sentences — LinkedIn pros don't use them, neither does Edward
@@ -178,6 +205,7 @@ Tracking what works and what doesn't. Numbers are approximate.
 ### Image strategy:
 - Screenshots of real stuff (usage dashboards, terminal output, code) > designed graphics
 - Hand-drawn annotations (mouse scribbles, red circles) feel authentic — NOT polished
+- If the screenshot itself is visually plain, quick phone markup can help the key number land faster than an untouched screenshot
 - AI-generated images = instant slop detector for LinkedIn audience. Avoid
 - The uglier and more real the image looks, the more it signals "this person actually does this"
 

@@ -5,10 +5,13 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
-| 2026-03-26 | posts/2026-03-26-execution-beats-hype/ | execution beats hype — same idea, different skin, retention tells the truth | scheduled | — | — | — |
-| 2026-03-25 | posts/2026-03-25-token-burn/ | Jensen Huang token burn take — 77.8M tokens in one day changed how i think about AI-native engineering | scheduled | — | — | — |
-| 2026-03-24 | posts/2026-03-24-aden-cold-dm/ | YC founder cold DM — proof of work matters more than profile polish | scheduled | — | — | — |
-| 2026-03-23 | posts/2026-03-23-lotushacks-smurf/ | MIT researcher at LotusHacks won 10 of 20 prizes — Coco and Inventra, reminder not to judge a book by its cover | published | — | — | — |
+| 2026-03-31 | posts/2026-03-31-workflow-overwhelm/ | workflow overload — juggling 7 projects, realizing the bottleneck is orchestration not code | published | — | — | — |
+| 2026-03-28 | posts/2026-03-28-fragmented-week/ | fragmented week at BLI — shipped across 3 projects, fixed bugs, still felt behind | scheduled | — | — | — |
+| 2026-03-27 | posts/2026-03-27-breaking-consistency/ | breaking consistency — quiet metrics moved first, woke up to 18 connection requests | published | 500 | 15 | — |
+| 2026-03-26 | posts/2026-03-26-execution-beats-hype/ | execution beats hype — same idea, different skin, retention tells the truth | published | ~240 | 6 | 3 |
+| 2026-03-25 | posts/2026-03-25-token-burn/ | Jensen Huang token burn take — 77.8M tokens in one day changed how i think about AI-native engineering | published | 400 | 7 | — |
+| 2026-03-24 | posts/2026-03-24-aden-cold-dm/ | YC founder cold DM — proof of work matters more than profile polish | published | 2200 | 14 | 5 |
+| 2026-03-23 | posts/2026-03-23-lotushacks-smurf/ | MIT researcher at LotusHacks won 10 of 20 prizes — Coco and Inventra, reminder not to judge a book by its cover | published | 4700 | 89 | 9 |
 | 2026-03-21 | posts/2026-03-21-day-1-lotushacks/ | LotusHacks day 1 at 3 am — building a Notion interface where agents pick up tasks and ship them | published | — | — | — |
 | 2026-03-19 | posts/2026-03-19-saint-joseph-feast-day/ | happy Saint Joseph's feast day — the original strong silent type, Sopranos hook | published | — | — | — |
 | 2026-03-17 | posts/2026-03-17-lotushacks/ | joining LotusHacks x HackHarvard — Vietnam's biggest hackathon, backed by OpenAI and ElevenLabs | published | — | — | — |
@@ -27,3 +30,9 @@ No need to open LinkedIn to remember what was posted.
 | 2026-02-14 | posts/2026-02-15-gpt2-from-scratch/ | building GPT-2 from scratch day 1 — neurons, backprop, computation graphs. Shoutout Headstarter | published | 2319 | 13 | 0 |
 | 2026-02-12 | posts/2026-02-12-serverless-timeout/ | shipped AI feature that worked until edge cases hit Vercel's 5min timeout — lesson: build for worst case | published | 603 | 9 | 8 |
 | 2026-02-10 | posts/2026-02-10-kevin-tutoring/ | tutored a kid with autism nobody wanted — he got 99% on his finals | published | 2222 | 19 | 2 |
+
+## Notes
+
+- `posts/2026-03-27-breaking-consistency/`: non-table metric worth keeping — woke up to 18 new connection requests
+- `posts/2026-03-23-lotushacks-smurf/`: also got 1 repost
+- `posts/2026-03-24-aden-cold-dm/`: 5 total comments includes Edward's replies; only 2 were unique external commenters
