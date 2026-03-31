@@ -5,7 +5,11 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
+| 2026-04-01 | posts/2026-04-01-part-3-cli-tools-over-mcp/ | part 3 — CLI tools over MCP servers, saving 10k-15k tokens and reducing workflow drag | published | — | — | — |
+| 2026-03-31 | posts/2026-03-31-part-2-your-mic-is-part-of-your-ai-stack/ | part 2 — your mic is part of your AI stack, speech-to-text quality shapes agent output | published | — | — | — |
 | 2026-03-31 | posts/2026-03-31-workflow-overwhelm/ | workflow overload — juggling 7 projects, realizing the bottleneck is orchestration not code | published | — | — | — |
+| 2026-03-30 | posts/2026-03-30-part-1-managing-5-projects-without-burning-out/ | part 1 — managing 5 projects without burning out by protecting context and reading plans carefully | published | — | — | — |
+| 2026-03-29 | posts/2026-03-29-leetcode-interview-game/ | leetcode interview game — real engineering hiring should test depth, ambiguity, and ownership | published | — | — | — |
 | 2026-03-28 | posts/2026-03-28-fragmented-week/ | fragmented week at BLI — shipped across 3 projects, fixed bugs, still felt behind | scheduled | — | — | — |
 | 2026-03-27 | posts/2026-03-27-breaking-consistency/ | breaking consistency — quiet metrics moved first, woke up to 18 connection requests | published | 500 | 15 | — |
 | 2026-03-26 | posts/2026-03-26-execution-beats-hype/ | execution beats hype — same idea, different skin, retention tells the truth | published | ~240 | 6 | 3 |
@@ -33,6 +37,10 @@ No need to open LinkedIn to remember what was posted.
 
 ## Notes
 
+- `posts/2026-03-29-leetcode-interview-game/`: posted around 12:00 AM ICT as the first take in this mini interview/workflow run
+- `posts/2026-03-30-part-1-managing-5-projects-without-burning-out/`: posted around 3:00 AM ICT
+- `posts/2026-03-31-part-2-your-mic-is-part-of-your-ai-stack/`: posted around 6:00 AM ICT
+- `posts/2026-04-01-part-3-cli-tools-over-mcp/`: posted around 9:00 AM ICT
 - `posts/2026-03-27-breaking-consistency/`: non-table metric worth keeping — woke up to 18 new connection requests
 - `posts/2026-03-23-lotushacks-smurf/`: also got 1 repost
 - `posts/2026-03-24-aden-cold-dm/`: 5 total comments includes Edward's replies; only 2 were unique external commenters

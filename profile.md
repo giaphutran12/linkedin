@@ -6,6 +6,7 @@
 - Product Growth Intern at TinyFish
 - Got hired by TinyFish after building an app on top of the TinyFish API (formerly Mino) before the interview — basically doing the intern job before getting the role
 - Also Software Engineer Resident at Headstarter
+- Founding engineer / technical lead on current startup project enough that Edward runs technical and behavioral interviews for candidates the boss sends over
 - Currently at Douglas College (SFU Transfer 2026), 4x honour roll, 1x Dean's List
 - Vietnamese background (VEYM youth leader 6yrs)
 - Catholic
@@ -46,6 +47,8 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
 - TinyFish hiring story → applied, built a TinyFish API app before the interview, got invited for a 15-minute interview because the work already showed fit
 - TinyFish / meetup work → secured $300 sponsorship for the next meetup, helping fund a speaker flying from Singapore to Vietnam for April 18
 - TinyFish / community signal → gave a demo at the March meetup
+- Hiring responsibility → when candidates reach out to the startup, Veetesh often routes them to Edward for technical and behavioral interviews
+- Hiring reps → Edward has already made some good hires, some okay hires, and some misses, which gives him a real opinion on what interview signals actually matter
 
 ## Voice/Tone
 **The vibe: Gen Z engineer, not a 40-year-old LinkedIn bro.**
@@ -58,7 +61,9 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
  Be direct. Say the thing.
  Use casual language ("yeah", "honestly", "tbh", "ngl" sparingly when it fits)
  Keep internet-native slang when it fits the audience ("touching grass" not "going outside") — don't sanitize authentic language
- Paragraphs are okay but use them sparingly — mostly stick to single lines with breaks
+ Paragraphs are okay but use them sparingly — they have a time and place
+ Good default density: around one real paragraph per post, or one paragraph every two posts
+ Use a paragraph when the thought needs momentum or emotional continuity, not just because the post needs variety
 
 ### DO NOT:
  Use corporate buzzwords ("leverage", "synergy", "ecosystem", "impactful", "thrilled to announce")
@@ -85,12 +90,14 @@ Infrastructure: Vercel, Neon, Redis, WebGPU, WebAssembly, Rust
 - TinyFish story: instead of just applying, Edward built on the API first, posted it publicly, and got hired because the proof-of-work was already there
 - TinyFish sponsorship story is strong because it shows initiative, trust, and real-world leverage: ask, nudge, deliver, make the event happen
 - Hackathons, meetups, demos, and community building are not random activities. They connect to the bigger mission of using gifts fully
+- Hiring / interview story bank: Edward is not theorizing about hiring from the outside — he actually runs technical and behavioral interviews for startup candidates and has seen good, bad, and mid hires
 - Math tutoring is best framed honestly as founding a small tutoring business, not pretending it was some big operation
 - Early hustle story bank: flipping League accounts in grade 7 and small arbitrage-style reselling shows entrepreneurial instinct early
 
 ### Punctuation & Capitalization (CRITICAL):
  No periods at the end of sentences — LinkedIn pros don't use them, neither does Edward
  No unnecessary punctuation in general
+ If Edward is ACTUALLY asking a question, use a question mark
  Do NOT capitalize the first word of a sentence by default
  Capitalization is used to signal importance only:
     - normal word at start of sentence → lowercase
