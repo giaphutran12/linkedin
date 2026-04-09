@@ -23,7 +23,7 @@
 - `public_metrics` is broadly available
 - non-public / organic metrics require user-context auth and are only available for recent owned posts
 
-## LinkedIn
+## LinkedIn safe path
 
 ### OAuth
 - Safe-path scopes:
@@ -46,11 +46,43 @@
 - Canonical URL shape:
   - `https://www.linkedin.com/feed/update/urn:li:ugcPost:<id>/`
 
-## Edward Engine v1 behavior
+## LinkedIn private local reader
+
+### Delivery model
+- Unpacked Chrome extension
+- Localhost-only
+- Reads visible LinkedIn pages from your logged-in browser
+- Sends normalized payloads back to the Next.js app through local API routes
+
+### Extraction order
+1. DOM extraction from visible LinkedIn pages
+2. Local OCR for screenshot imports and fallback parsing
+3. Gemini only for messy screenshots or low-confidence image understanding
+
+### Local routes
+- `POST /api/local-reader/pair`
+- `GET /api/local-reader/status`
+- `POST /api/local-reader/linkedin/start`
+- `POST /api/local-reader/linkedin/ingest`
+- `POST /api/local-reader/linkedin/finish`
+
+### Current scope
+- profile analytics snapshots
+- discovered post URLs from recent activity pages
+- post-level visible metrics
+- first visible comments
+- raw extracted text and browser evidence
+
+## Edward Engine v2 behavior
 - X tries official publish + official metric sync
-- LinkedIn tries official publish
-- LinkedIn read-side metrics stay mixed-mode in v1:
-  - URL import
-  - screenshot upload
-  - OCR parse
-- Private local-only LinkedIn browser capture is explicitly out of scope for v1
+- LinkedIn tries official publish on the safe path
+- LinkedIn read-side can now come from three sources:
+  - browser sync via the local reader
+  - manual URL + screenshot import
+  - OCR/Gemini fallback on imported evidence
+- all of that data feeds:
+  - `metricSnapshots`
+  - `accountMetricSnapshots`
+  - `postFeatureSets`
+  - `localSyncRuns`
+  - the LinkedIn insights dashboard

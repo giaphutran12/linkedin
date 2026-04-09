@@ -12,18 +12,30 @@ import {
   detectPlatform,
   extractExternalIds,
   isBlockingGuardrailIssue,
-  parseMetricsFromText,
   scanGuardrails,
+  sanitizeLinkedInProfileUrl,
 } from "@/lib/content";
-import { runOcr } from "@/lib/ocr";
+import { collectImportedEvidence } from "@/lib/evidence";
+import {
+  applyLinkedInRunnerResults,
+  connectRunnerVisible,
+  getRunnerStatus,
+  startLinkedInRunnerSync,
+} from "@/lib/gstack-runner";
+import { syncPublicationFeatureSets } from "@/lib/insights";
 import { publishVariantToPlatform, syncPlatformMetrics } from "@/lib/platforms";
-import { getUploadDirectory, readStore, updateStore } from "@/lib/store";
+import {
+  getUploadDirectory,
+  getDefaultOptimizationPresets,
+  readStore,
+  updateStore,
+} from "@/lib/store";
 import type {
   CommentNote,
   ContentItem,
-  ManualEvidence,
   MediaAsset,
   MetricSnapshot,
+  OptimizationPresetId,
   Publication,
 } from "@/lib/types";
 
@@ -32,6 +44,14 @@ function parseList(value: FormDataEntryValue | null) {
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function parseTimezones(value: FormDataEntryValue | null) {
+  const list = String(value ?? "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  return Array.from(new Set(list)).slice(0, 5);
 }
 
 async function saveFiles(
@@ -201,19 +221,23 @@ export async function publishVariantAction(formData: FormData) {
       updatedAt: new Date().toISOString(),
     };
 
-    await updateStore((current) => ({
-      ...current,
-      publications: [publication, ...current.publications],
-      platformVariants: current.platformVariants.map((entry) =>
-        entry.id === variant.id
-          ? {
-              ...entry,
-              guardrailIssues: latestGuardrailIssues,
-              updatedAt: new Date().toISOString(),
-            }
-          : entry,
-      ),
-    }));
+    await updateStore(async (current) => {
+      const nextStore = {
+        ...current,
+        publications: [publication, ...current.publications],
+        platformVariants: current.platformVariants.map((entry) =>
+          entry.id === variant.id
+            ? {
+                ...entry,
+                guardrailIssues: latestGuardrailIssues,
+                updatedAt: new Date().toISOString(),
+              }
+            : entry,
+        ),
+      };
+
+      return syncPublicationFeatureSets(nextStore, [publication.id]);
+    });
   } catch (error) {
     await updateStore((current) => ({
       ...current,
@@ -250,24 +274,17 @@ export async function importPublicationAction(formData: FormData) {
       : (selectedPlatform as Publication["platform"]);
   const platform = detectedPlatform ?? "linkedin";
   const now = new Date().toISOString();
-
-  const ocrTexts = await Promise.all(
-    uploadedAssets
-      .filter((asset) => asset.mimeType.startsWith("image/"))
-      .map((asset) => runOcr(asset.storedPath).catch(() => "")),
-  );
-  const combinedOcrText = ocrTexts.filter(Boolean).join("\n\n");
-  const parsedFromOcr = parseMetricsFromText(combinedOcrText);
+  const importedEvidence = await collectImportedEvidence(uploadedAssets);
   const manualMetrics = manualMetricsFromForm(formData);
   const parsedMetrics = {
-    ...parsedFromOcr,
+    ...importedEvidence.parsedMetrics,
     ...Object.fromEntries(
       Object.entries(manualMetrics).filter(([, value]) => value !== undefined),
     ),
   };
   const externalIds = extractExternalIds(url);
 
-  await updateStore((store) => {
+  await updateStore(async (store) => {
     let contentItemId = selectedContentItemId;
     const newContentItems = [...store.contentItems];
 
@@ -304,15 +321,19 @@ export async function importPublicationAction(formData: FormData) {
       updatedAt: now,
     };
 
-    const evidence: ManualEvidence = {
+    const evidence = {
       id: randomUUID(),
       publicationId: publication.id,
       platform,
       url: url || undefined,
       assetIds: uploadedAssets.map((asset) => asset.id),
-      ocrText: combinedOcrText || undefined,
-      notes: notes || undefined,
+      ocrText: importedEvidence.text || undefined,
+      extractedText: importedEvidence.text || undefined,
+      notes:
+        [notes, ...importedEvidence.notes].filter(Boolean).join(" | ") || undefined,
       verified: Boolean(url),
+      captureMethod: importedEvidence.captureMethod,
+      extractionConfidence: importedEvidence.confidence || 0.55,
       parsedMetrics,
       createdAt: now,
     };
@@ -327,14 +348,19 @@ export async function importPublicationAction(formData: FormData) {
         id: randomUUID(),
         publicationId: publication.id,
         platform,
-        source: combinedOcrText ? "ocr" : "manual",
+        source:
+          importedEvidence.captureMethod === "vision"
+            ? "vision"
+            : importedEvidence.captureMethod === "ocr"
+              ? "ocr"
+              : "manual",
         capturedAt: now,
         ...parsedMetrics,
-        rawText: combinedOcrText || undefined,
+        rawText: importedEvidence.text || undefined,
       });
     }
 
-    return {
+    const nextStore = {
       ...store,
       contentItems: newContentItems,
       mediaAssets: [...uploadedAssets, ...store.mediaAssets],
@@ -342,6 +368,8 @@ export async function importPublicationAction(formData: FormData) {
       manualEvidence: [evidence, ...store.manualEvidence],
       metricSnapshots: [...snapshots, ...store.metricSnapshots],
     };
+
+    return syncPublicationFeatureSets(nextStore, [publication.id]);
   });
 
   revalidatePath("/");
@@ -374,19 +402,30 @@ export async function syncMetricsAction(formData: FormData) {
         id: randomUUID(),
         publicationId: publication.id,
         platform: publication.platform,
-        source: latestEvidence.ocrText ? "ocr" : "manual",
+        source:
+          latestEvidence.captureMethod === "vision"
+            ? "vision"
+            : latestEvidence.captureMethod === "ocr"
+              ? "ocr"
+              : latestEvidence.captureMethod === "browser"
+                ? "browser"
+                : "manual",
         capturedAt: new Date().toISOString(),
         ...latestEvidence.parsedMetrics,
-        rawText: latestEvidence.ocrText,
+        rawText: latestEvidence.extractedText ?? latestEvidence.ocrText,
       };
     }
   }
 
   if (snapshot) {
-    await updateStore((current) => ({
-      ...current,
-      metricSnapshots: [snapshot, ...current.metricSnapshots],
-    }));
+    await updateStore(async (current) => {
+      const nextStore = {
+        ...current,
+        metricSnapshots: [snapshot, ...current.metricSnapshots],
+      };
+
+      return syncPublicationFeatureSets(nextStore, [publication.id]);
+    });
   }
 
   revalidatePath("/");
@@ -408,6 +447,7 @@ export async function addCommentNoteAction(formData: FormData) {
     note,
     replyStatus: String(formData.get("replyStatus") ?? "manual") as CommentNote["replyStatus"],
     tags: parseList(formData.get("tags")),
+    source: "manual",
     createdAt: new Date().toISOString(),
   };
 
@@ -428,7 +468,11 @@ export async function analyzePublicationAction(formData: FormData) {
     return;
   }
 
-  const analysis = analyzePublication(publication, store.manualEvidence);
+  const analysis = analyzePublication(
+    publication,
+    store.manualEvidence,
+    store.metricSnapshots,
+  );
   const commentNote: CommentNote = {
     id: randomUUID(),
     publicationId,
@@ -437,6 +481,7 @@ export async function analyzePublicationAction(formData: FormData) {
     note: `${analysis.hookType} / ${analysis.proofType}: ${analysis.likelyReason}. Next: ${analysis.suggestedNextStep}`,
     replyStatus: "manual",
     tags: ["analysis"],
+    source: "manual",
     createdAt: new Date().toISOString(),
   };
 
@@ -444,6 +489,312 @@ export async function analyzePublicationAction(formData: FormData) {
     ...store,
     commentNotes: [commentNote, ...store.commentNotes],
   }));
+
+  revalidatePath("/");
+}
+
+export async function setOptimizationPresetAction(formData: FormData) {
+  const presetId = String(formData.get("presetId") ?? "engagement") as OptimizationPresetId;
+  const defaults = getDefaultOptimizationPresets();
+  const valid = defaults.some((preset) => preset.id === presetId)
+    ? presetId
+    : "engagement";
+
+  await updateStore((store) => ({
+    ...store,
+    selectedOptimizationPresetId: valid,
+    optimizationPresets:
+      store.optimizationPresets.length > 0 ? store.optimizationPresets : defaults,
+  }));
+
+  revalidatePath("/");
+}
+
+export async function updateLinkedInLocalReaderConfigAction(formData: FormData) {
+  const profileUrlHint = sanitizeLinkedInProfileUrl(
+    String(formData.get("profileUrlHint") ?? "").trim(),
+  );
+
+  await updateStore((store) => {
+    const existing = store.accountConnections.find(
+      (entry) => entry.platform === "linkedin",
+    );
+
+    const connection = existing ?? {
+      id: randomUUID(),
+      platform: "linkedin" as const,
+      status: "needs_setup" as const,
+      displayName: "LinkedIn local reader",
+      scopes: [],
+      capabilityFlags: {
+        canPublish: false,
+        canReadProfile: "limited" as const,
+        canReadPosts: false,
+        canReadComments: false,
+        canReadPostAnalytics: false,
+        requiresManualBackfill: true,
+        privateLocalReaderAvailable: false,
+      },
+    };
+
+    const nextConnection = {
+      ...connection,
+      localReader: {
+        ...connection.localReader,
+        profileUrlHint: profileUrlHint || undefined,
+      },
+    };
+
+    return {
+      ...store,
+      accountConnections: [
+        nextConnection,
+        ...store.accountConnections.filter((entry) => entry.platform !== "linkedin"),
+      ],
+    };
+  });
+
+  revalidatePath("/");
+}
+
+export async function updateLinkedInRunnerConfigAction(formData: FormData) {
+  const profileUrlHint = sanitizeLinkedInProfileUrl(
+    String(formData.get("profileUrlHint") ?? "").trim(),
+  );
+  const recentPostLimit = Number(formData.get("recentPostLimit") ?? 30);
+  const primaryTimezone = String(formData.get("primaryTimezone") ?? "").trim();
+  const savedTimezones = parseTimezones(formData.get("savedTimezones"));
+  const normalizedTimezones = primaryTimezone
+    ? [primaryTimezone, ...savedTimezones.filter((zone) => zone !== primaryTimezone)]
+    : savedTimezones;
+  const preferredBrowserMode = (String(
+    formData.get("preferredBrowserMode") ?? "visible",
+  ) === "headless"
+    ? "headless"
+    : "visible") as "headless" | "visible";
+  const snapshotScheduleEnabled = Boolean(formData.get("snapshotEnabled"));
+  const snapshotCadenceHours = Number(formData.get("snapshotCadenceHours") ?? 6);
+
+  await updateStore((store) => {
+    const existing = store.accountConnections.find(
+      (entry) => entry.platform === "linkedin",
+    );
+
+    const connection = existing ?? {
+      id: randomUUID(),
+      platform: "linkedin" as const,
+      status: "needs_setup" as const,
+      displayName: "LinkedIn local reader",
+      scopes: [],
+      capabilityFlags: {
+        canPublish: false,
+        canReadProfile: "limited" as const,
+        canReadPosts: false,
+        canReadComments: false,
+        canReadPostAnalytics: false,
+        requiresManualBackfill: true,
+        privateLocalReaderAvailable: false,
+      },
+    };
+
+    const nextLocalReader = {
+      ...connection.localReader,
+      profileUrlHint: profileUrlHint || undefined,
+      recentPostLimit: Number.isFinite(recentPostLimit) ? recentPostLimit : 30,
+      primaryTimezone: primaryTimezone || undefined,
+      savedTimezones: normalizedTimezones,
+      preferredBrowserMode,
+      snapshotScheduleEnabled,
+      snapshotCadenceHours: Number.isFinite(snapshotCadenceHours)
+        ? snapshotCadenceHours
+        : 6,
+    };
+
+    return {
+      ...store,
+      accountConnections: [
+        {
+          ...connection,
+          localReader: nextLocalReader,
+        },
+        ...store.accountConnections.filter((entry) => entry.platform !== "linkedin"),
+      ],
+    };
+  });
+
+  revalidatePath("/");
+}
+
+export async function connectLinkedInRunnerAction() {
+  await connectRunnerVisible().catch(() => null);
+  const status = await getRunnerStatus().catch(() => null);
+
+  await updateStore((store) => ({
+    ...store,
+    accountConnections: store.accountConnections.map((entry) =>
+      entry.platform === "linkedin"
+        ? {
+            ...entry,
+            localReader: {
+              ...entry.localReader,
+              runnerStatus: status?.available ? "ready" : "missing",
+              runnerSession: status?.mode === "headed" ? "valid" : "unknown",
+              preferredBrowserMode: "visible",
+            },
+          }
+        : entry,
+    ),
+  }));
+
+  revalidatePath("/");
+}
+
+export async function runLinkedInDeepSyncAction() {
+  const store = await readStore();
+  const connection = store.accountConnections.find(
+    (entry) => entry.platform === "linkedin",
+  );
+
+  if (!connection?.localReader?.profileUrlHint) {
+    throw new Error("LinkedIn profile URL hint is required.");
+  }
+
+  await updateStore((current) => ({
+    ...current,
+    accountConnections: current.accountConnections.map((entry) =>
+      entry.platform === "linkedin"
+        ? {
+            ...entry,
+            localReader: {
+              ...entry.localReader,
+              runnerStatus: "busy",
+            },
+          }
+        : entry,
+    ),
+  }));
+
+  try {
+    const { runId, result } = await startLinkedInRunnerSync(
+      "deep",
+      connection.localReader,
+    );
+    await applyLinkedInRunnerResults(
+      "deep",
+      {
+        profileUrl: connection.localReader.profileUrlHint,
+        recentPostLimit: connection.localReader.recentPostLimit ?? 30,
+        preferredBrowserMode:
+          connection.localReader.preferredBrowserMode ?? "visible",
+      },
+      { ...result, runId },
+    );
+  } catch (error) {
+    await updateStore((current) => ({
+      ...current,
+      localSyncRuns: current.localSyncRuns.map((run) =>
+        run.status === "running" && run.platform === "linkedin"
+          ? {
+              ...run,
+              finishedAt: new Date().toISOString(),
+              status: "failed",
+              error: error instanceof Error ? error.message : "runner failed",
+            }
+          : run,
+      ),
+    }));
+    throw error;
+  } finally {
+    await updateStore((current) => ({
+      ...current,
+      accountConnections: current.accountConnections.map((entry) =>
+        entry.platform === "linkedin"
+          ? {
+              ...entry,
+              localReader: {
+                ...entry.localReader,
+                runnerStatus: "ready",
+              },
+            }
+          : entry,
+      ),
+    }));
+  }
+
+  revalidatePath("/");
+}
+
+export async function runLinkedInSnapshotSyncAction() {
+  const store = await readStore();
+  const connection = store.accountConnections.find(
+    (entry) => entry.platform === "linkedin",
+  );
+
+  if (!connection?.localReader?.profileUrlHint) {
+    throw new Error("LinkedIn profile URL hint is required.");
+  }
+
+  await updateStore((current) => ({
+    ...current,
+    accountConnections: current.accountConnections.map((entry) =>
+      entry.platform === "linkedin"
+        ? {
+            ...entry,
+            localReader: {
+              ...entry.localReader,
+              runnerStatus: "busy",
+            },
+          }
+        : entry,
+    ),
+  }));
+
+  try {
+    const { runId, result } = await startLinkedInRunnerSync(
+      "snapshot",
+      connection.localReader,
+    );
+    await applyLinkedInRunnerResults(
+      "snapshot",
+      {
+        profileUrl: connection.localReader.profileUrlHint,
+        recentPostLimit: Math.min(connection.localReader.recentPostLimit ?? 30, 10),
+        preferredBrowserMode:
+          connection.localReader.preferredBrowserMode ?? "headless",
+      },
+      { ...result, runId },
+    );
+  } catch (error) {
+    await updateStore((current) => ({
+      ...current,
+      localSyncRuns: current.localSyncRuns.map((run) =>
+        run.status === "running" && run.platform === "linkedin"
+          ? {
+              ...run,
+              finishedAt: new Date().toISOString(),
+              status: "failed",
+              error: error instanceof Error ? error.message : "runner failed",
+            }
+          : run,
+      ),
+    }));
+    throw error;
+  } finally {
+    await updateStore((current) => ({
+      ...current,
+      accountConnections: current.accountConnections.map((entry) =>
+        entry.platform === "linkedin"
+          ? {
+              ...entry,
+              localReader: {
+                ...entry.localReader,
+                runnerStatus: "ready",
+              },
+            }
+          : entry,
+      ),
+    }));
+  }
 
   revalidatePath("/");
 }

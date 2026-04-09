@@ -16,6 +16,15 @@ profile.md → your context, ammo, goals (keep this updated)
 my-achievements.md → your resume
 ```
 
+## Repo Tooling
+
+This repo now vendors `gstack` at `.agents/skills/gstack` as a repo-local Codex toolchain.
+
+Use the `gstack` browser skills, especially `/gstack-browse`, as the preferred experimental path for heavy browser automation and browser-driven debugging.
+
+Edward Engine's current LinkedIn local reader stays in place for now.
+Nothing in `edward-engine/` has been rewired to `gstack` yet.
+
 ## The Goal
 
 Get noticed by YC founders and SF startup engineers and recruiters.

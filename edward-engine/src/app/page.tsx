@@ -1,9 +1,7 @@
 import {
-  Activity,
   ArrowUpRight,
   Brain,
   CheckCircle2,
-  CopyPlus,
   Link2,
   NotebookTabs,
   ScanSearch,
@@ -11,17 +9,26 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { headers } from "next/headers";
 
 import {
   addCommentNoteAction,
   analyzePublicationAction,
+  connectLinkedInRunnerAction,
   createContentItemAction,
   importPublicationAction,
   publishVariantAction,
   regenerateVariantsAction,
+  runLinkedInDeepSyncAction,
+  runLinkedInSnapshotSyncAction,
   syncMetricsAction,
+  updateLinkedInRunnerConfigAction,
 } from "@/app/actions";
+import { InsightsDashboard } from "@/components/insights-dashboard";
+import { LocalReaderPanel } from "@/components/local-reader-panel";
 import { analyzePublication } from "@/lib/content";
+import { buildLinkedInInsights } from "@/lib/insights";
+import { isLocalhostHost } from "@/lib/local-reader";
 import { getProvider, providerIsConfigured } from "@/lib/oauth";
 import { getDefaultCapabilities, getRepoSummary, readStore } from "@/lib/store";
 import type { Platform, Publication } from "@/lib/types";
@@ -42,16 +49,30 @@ function metricValue(value: number | undefined) {
 
 function latestSnapshotFor(
   publicationId: string,
-  publications: Awaited<ReturnType<typeof readStore>>["metricSnapshots"],
+  snapshots: Awaited<ReturnType<typeof readStore>>["metricSnapshots"],
 ) {
-  return publications.find((snapshot) => snapshot.publicationId === publicationId);
+  return snapshots.find((snapshot) => snapshot.publicationId === publicationId);
 }
 
 function latestCommentNotesFor(
   publicationId: string,
   notes: Awaited<ReturnType<typeof readStore>>["commentNotes"],
 ) {
-  return notes.filter((note) => note.publicationId === publicationId).slice(0, 2);
+  return notes.filter((note) => note.publicationId === publicationId).slice(0, 3);
+}
+
+function latestEvidenceFor(
+  publicationId: string,
+  evidence: Awaited<ReturnType<typeof readStore>>["manualEvidence"],
+) {
+  return evidence.filter((entry) => entry.publicationId === publicationId).slice(0, 1);
+}
+
+function assetsForPublication(
+  publication: Publication,
+  assets: Awaited<ReturnType<typeof readStore>>["mediaAssets"],
+) {
+  return assets.filter((asset) => publication.assetIds.includes(asset.id));
 }
 
 function publishedOrImported(publications: Publication[]) {
@@ -70,19 +91,21 @@ function connectionCard(
   const provider = getProvider(platform);
   const configured = providerIsConfigured(platform);
   const capabilities = connection?.capabilityFlags ?? getDefaultCapabilities(platform);
+  const officialAccountName =
+    connection?.status === "connected" && connection?.displayName
+      ? connection.displayName
+      : "not connected yet";
 
   return (
     <div className="panel rounded-[1.75rem] p-5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="eyebrow">{platform === "linkedin" ? "LinkedIn" : "X"}</p>
-          <h3 className="mt-2 text-xl font-semibold">
-            {connection?.displayName ?? "not connected yet"}
-          </h3>
+          <h3 className="mt-2 text-xl font-semibold">{officialAccountName}</h3>
           <p className="mt-2 text-sm leading-6 text-muted">
             {platform === "linkedin"
-              ? "safe path first: profile + email + w_member_social"
-              : "official OAuth, post publishing, and API metric sync"}
+              ? "safe path for publish, local reader for visible analytics"
+              : "official OAuth, publish, and API metric sync"}
           </p>
         </div>
         <a
@@ -112,7 +135,10 @@ function connectionCard(
             <li>profile: {capabilities.canReadProfile}</li>
             <li>read posts: {capabilities.canReadPosts ? "yes" : "no"}</li>
             <li>
-              analytics: {capabilities.canReadPostAnalytics ? "yes" : "manual"}
+              analytics: {capabilities.canReadPostAnalytics ? "yes" : "mixed-mode"}
+            </li>
+            <li>
+              local runner: {capabilities.privateLocalReaderAvailable ? "ready" : "not ready"}
             </li>
           </ul>
         </div>
@@ -134,18 +160,29 @@ function connectionCard(
 }
 
 export default async function Home() {
+  const headerStore = await headers();
+  const host = headerStore.get("host");
+  const isLocalhost = isLocalhostHost(host);
+
   const [store, repoSummary] = await Promise.all([readStore(), getRepoSummary()]);
   const latestPublications = store.publications.slice(0, 8);
   const latestVariants = store.platformVariants.slice(0, 6);
   const latestContentItems = store.contentItems.slice(0, 5);
+  const linkedInConnection = store.accountConnections.find(
+    (entry) => entry.platform === "linkedin",
+  );
+  const insights = buildLinkedInInsights(
+    store,
+    store.selectedOptimizationPresetId,
+  );
   const publishedItems = publishedOrImported(store.publications);
-
   const weeklySummary = {
     publicationCount: publishedItems.length,
     xCount: publishedItems.filter((item) => item.platform === "x").length,
     linkedInCount: publishedItems.filter((item) => item.platform === "linkedin")
       .length,
     metricSnapshotCount: store.metricSnapshots.length,
+    accountSnapshotCount: store.accountMetricSnapshots.length,
   };
 
   return (
@@ -154,58 +191,76 @@ export default async function Home() {
         <div className="absolute inset-y-0 right-0 hidden w-72 bg-[radial-gradient(circle_at_top,rgba(10,124,255,0.18),transparent_58%)] lg:block" />
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
-            <p className="eyebrow">Edward Engine v1</p>
+            <p className="eyebrow">Edward Engine v3</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-              your internal X + LinkedIn content portal
+              write, sync, and learn from every LinkedIn post
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-muted sm:text-lg">
-              write once, generate variants, publish through official adapters when
-              possible, import native posts when needed, OCR screenshots, and build a
-              real memory for what is actually compounding
+              safe-path publishing in the app, a gstack-powered LinkedIn runner, and
+              a dashboard that keeps telling you what to double down on.
             </p>
           </div>
 
-          <div className="grid w-full gap-3 sm:grid-cols-2 lg:w-[28rem]">
+          <div className="grid w-full gap-3 sm:grid-cols-2 lg:w-[30rem]">
             <div className="metric-card">
               <p className="eyebrow">Repo baseline</p>
               <p className="mt-3 text-3xl font-semibold">
                 {repoSummary.publishedCount}
               </p>
-              <p className="mt-1 text-sm text-muted">published posts already in repo</p>
+              <p className="mt-1 text-sm text-muted">published posts already archived</p>
             </div>
             <div className="metric-card">
               <p className="eyebrow">Engine memory</p>
               <p className="mt-3 text-3xl font-semibold">
                 {weeklySummary.metricSnapshotCount}
               </p>
-              <p className="mt-1 text-sm text-muted">metric snapshots stored locally</p>
+              <p className="mt-1 text-sm text-muted">post-level metric snapshots</p>
+            </div>
+            <div className="metric-card">
+              <p className="eyebrow">Account analytics</p>
+              <p className="mt-3 text-3xl font-semibold">
+                {weeklySummary.accountSnapshotCount}
+              </p>
+              <p className="mt-1 text-sm text-muted">profile analytics snapshots</p>
+            </div>
+            <div className="metric-card">
+              <p className="eyebrow">X / LinkedIn split</p>
+              <p className="mt-3 text-3xl font-semibold">
+                {weeklySummary.xCount} / {weeklySummary.linkedInCount}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="relative mt-8 grid gap-3 md:grid-cols-4">
+        <div className="relative mt-8 grid gap-3 md:grid-cols-5">
           <div className="metric-card">
             <p className="eyebrow">Composer</p>
             <p className="mt-2 text-sm leading-6 text-muted">
-              draft a raw idea and auto-generate both variants
+              save the raw idea once and generate both variants
             </p>
           </div>
           <div className="metric-card">
             <p className="eyebrow">Publisher</p>
             <p className="mt-2 text-sm leading-6 text-muted">
-              official OAuth first, with canonical URL storage
+              official adapters for X and LinkedIn safe-path posts
             </p>
           </div>
           <div className="metric-card">
             <p className="eyebrow">Import Inbox</p>
             <p className="mt-2 text-sm leading-6 text-muted">
-              paste URLs and upload screenshots for mixed-mode import
+              mixed-mode URL import plus OCR or Gemini fallback
             </p>
           </div>
           <div className="metric-card">
-            <p className="eyebrow">Analyst</p>
+            <p className="eyebrow">Local Reader</p>
             <p className="mt-2 text-sm leading-6 text-muted">
-              hook type, proof type, likely reason, and next move
+              local runner captures visible LinkedIn pages with evidence
+            </p>
+          </div>
+          <div className="metric-card">
+            <p className="eyebrow">Insights</p>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              score, timing, hook, and image feedback from real post history
             </p>
           </div>
         </div>
@@ -215,13 +270,10 @@ export default async function Home() {
         <div className="panel rounded-[2rem] p-6">
           {sectionTitle(
             "Connections",
-            "connect the official accounts first. LinkedIn stays on the safe path in v1, and anything outside those scopes comes through mixed-mode import.",
+            "connect the official accounts first. LinkedIn stays safe-path for OAuth publishing, and the local runner fills in the visible analytics gap.",
           )}
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
-            {connectionCard(
-              "linkedin",
-              store.accountConnections.find((entry) => entry.platform === "linkedin"),
-            )}
+            {connectionCard("linkedin", linkedInConnection)}
             {connectionCard(
               "x",
               store.accountConnections.find((entry) => entry.platform === "x"),
@@ -229,56 +281,119 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="panel rounded-[2rem] p-6">
-          {sectionTitle(
-            "Weekly pulse",
-            "this is the high-level memory layer so you can see whether the machine is actually learning or just storing noise.",
-          )}
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <div className="metric-card">
-              <p className="eyebrow">Tracked publications</p>
-              <p className="mt-3 text-3xl font-semibold">
-                {weeklySummary.publicationCount}
-              </p>
-            </div>
-            <div className="metric-card">
-              <p className="eyebrow">X / LinkedIn split</p>
-              <p className="mt-3 text-3xl font-semibold">
-                {weeklySummary.xCount} / {weeklySummary.linkedInCount}
-              </p>
-            </div>
-            <div className="metric-card">
-              <p className="eyebrow">Draft library</p>
-              <p className="mt-3 text-3xl font-semibold">{repoSummary.draftCount}</p>
-            </div>
-            <div className="metric-card">
-              <p className="eyebrow">Latest in repo</p>
-              <p className="mt-3 text-sm leading-6">
-                {repoSummary.latestPublished[0]?.topic ?? "nothing parsed yet"}
-              </p>
-            </div>
-          </div>
+        <LocalReaderPanel
+          isLocalhost={isLocalhost}
+          profileUrlHint={linkedInConnection?.localReader?.profileUrlHint}
+          lastSyncedAt={linkedInConnection?.localReader?.lastSyncedAt}
+          runnerStatus={linkedInConnection?.localReader?.runnerStatus ?? "unknown"}
+          sessionStatus={linkedInConnection?.localReader?.runnerSession ?? "unknown"}
+          preferredBrowserMode={linkedInConnection?.localReader?.preferredBrowserMode}
+          snapshotEnabled={linkedInConnection?.localReader?.snapshotScheduleEnabled}
+          snapshotCadenceHours={linkedInConnection?.localReader?.snapshotCadenceHours}
+        />
+      </section>
 
-          <div className="mt-6 rounded-[1.5rem] border border-border bg-panel-strong p-4">
-            <p className="eyebrow">Default X mix</p>
-            <div className="mt-3 flex flex-wrap gap-2 text-sm font-semibold">
-              <span className="rounded-full bg-white/80 px-3 py-1">60% Notion Code</span>
-              <span className="rounded-full bg-white/80 px-3 py-1">
-                25% personal builder
-              </span>
-              <span className="rounded-full bg-white/80 px-3 py-1">
-                15% True Weapon
-              </span>
+      <section className="panel rounded-[2rem] p-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          {sectionTitle(
+            "Local reader settings",
+            "The runner uses your local profile URL hint to discover posts and analytics pages faster.",
+          )}
+
+          <div className="grid w-full max-w-2xl gap-3">
+            <form
+              action={updateLinkedInRunnerConfigAction}
+              className="grid gap-3"
+            >
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input
+                  className="input-base"
+                  name="profileUrlHint"
+                  defaultValue={linkedInConnection?.localReader?.profileUrlHint ?? ""}
+                placeholder="https://www.linkedin.com/in/your-profile/"
+              />
+              <input
+                className="input-base"
+                name="recentPostLimit"
+                defaultValue={linkedInConnection?.localReader?.recentPostLimit ?? 30}
+                placeholder="recent post limit (default 30)"
+              />
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <input
+                className="input-base"
+                name="primaryTimezone"
+                defaultValue={linkedInConnection?.localReader?.primaryTimezone ?? ""}
+                placeholder="primary timezone (e.g. Asia/Ho_Chi_Minh)"
+              />
+              <input
+                className="input-base"
+                name="savedTimezones"
+                defaultValue={linkedInConnection?.localReader?.savedTimezones?.join(", ") ?? ""}
+                placeholder="compare timezones (comma separated, up to 4)"
+              />
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <select
+                className="input-base"
+                name="preferredBrowserMode"
+                defaultValue={linkedInConnection?.localReader?.preferredBrowserMode ?? "visible"}
+              >
+                <option value="visible">visible browser</option>
+                <option value="headless">headless browser</option>
+              </select>
+                <input
+                  className="input-base"
+                  name="snapshotCadenceHours"
+                  defaultValue={linkedInConnection?.localReader?.snapshotCadenceHours ?? 6}
+                  placeholder="snapshot cadence hours"
+                />
+              </div>
+              <label className="flex items-center gap-2 text-sm text-muted">
+                <input
+                  type="checkbox"
+                  name="snapshotEnabled"
+                  defaultChecked={Boolean(
+                    linkedInConnection?.localReader?.snapshotScheduleEnabled,
+                  )}
+                />
+                enable snapshot refresh (runs when the app is open)
+              </label>
+              <div className="flex flex-wrap gap-3">
+                <button className="button-secondary" type="submit">
+                  <ShieldCheck className="h-4 w-4" />
+                  save runner settings
+                </button>
+              </div>
+            </form>
+            <div className="flex flex-wrap gap-3">
+              <form action={connectLinkedInRunnerAction}>
+                <button className="button-secondary" type="submit">
+                  open runner
+                </button>
+              </form>
+              <form action={runLinkedInDeepSyncAction}>
+                <button className="button-primary" type="submit">
+                  deep sync now
+                </button>
+              </form>
+              <form action={runLinkedInSnapshotSyncAction}>
+                <button className="button-secondary" type="submit">
+                  snapshot refresh
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </section>
 
+      <InsightsDashboard insights={insights} />
+
       <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="panel rounded-[2rem] p-6">
           {sectionTitle(
             "Composer",
-            "drop the raw idea here. The app will save the source story, attach assets, and generate both platform variants immediately.",
+            "drop the raw idea here. Edward Engine stores the story, attaches assets, and generates both platform variants immediately.",
           )}
 
           <form action={createContentItemAction} className="mt-6 grid gap-4">
@@ -362,7 +477,7 @@ export default async function Home() {
         <div className="panel rounded-[2rem] p-6">
           {sectionTitle(
             "Import Inbox",
-            "this is the mixed-mode safety net. If you posted natively, paste the URL, add screenshots, and let OCR do the first pass before you correct anything.",
+            "paste the post URL, upload screenshots, and let DOM, OCR, and Gemini fallback build the first pass before you correct anything.",
           )}
 
           <form action={importPublicationAction} className="mt-6 grid gap-4">
@@ -440,145 +555,172 @@ export default async function Home() {
             "Variants + publishing queue",
             "variants are generated locally first. Publishing respects guardrails, then routes through the official adapter for that platform when credentials exist.",
           )}
+          <div className="rounded-full border border-border bg-panel-strong px-4 py-2 text-sm font-medium">
+            {latestVariants.length} ready-to-publish variants in memory
+          </div>
         </div>
 
-        <div className="mt-6 grid gap-4 xl:grid-cols-2">
-          {latestVariants.map((variant) => {
-            const contentItem = store.contentItems.find(
-              (item) => item.id === variant.contentItemId,
-            );
+        <div className="mt-6 space-y-4">
+          {latestVariants.length > 0 ? (
+            latestVariants.map((variant) => (
+              <article
+                key={variant.id}
+                className="rounded-[1.6rem] border border-border bg-white/70 p-5"
+              >
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="max-w-3xl">
+                    <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                      <span>{variant.platform}</span>
+                      {variant.guardrailIssues.length > 0 ? (
+                        <span className="rounded-full bg-[rgba(176,61,46,0.12)] px-2 py-1 text-danger">
+                          {variant.guardrailIssues.length} guardrail flags
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-[rgba(34,120,78,0.12)] px-2 py-1 text-success">
+                          clean
+                        </span>
+                      )}
+                    </div>
 
-            return (
-              <article key={variant.id} className="rounded-[1.6rem] border border-border bg-panel-strong p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="eyebrow">{variant.platform}</p>
-                    <h3 className="mt-2 text-lg font-semibold">
-                      {contentItem?.rawIdea.slice(0, 82) ?? "untitled variant"}
-                    </h3>
+                    <pre className="mt-4 max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-[1.4rem] border border-border bg-panel p-4 font-sans text-sm leading-6">
+                      {variant.text}
+                    </pre>
+
+                    <div className="mt-4 flex flex-wrap gap-2 text-sm text-muted">
+                      {variant.generationNotes.map((note) => (
+                        <span
+                          key={`${variant.id}-${note}`}
+                          className="rounded-full border border-border bg-white px-3 py-1"
+                        >
+                          {note}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
-                    {contentItem?.lane ?? "lane"}
-                  </span>
-                </div>
 
-                <pre className="mt-4 whitespace-pre-wrap rounded-[1.2rem] bg-white/75 p-4 text-sm leading-6">
-                  {variant.text}
-                </pre>
+                  <div className="flex flex-col gap-3">
+                    <form action={publishVariantAction}>
+                      <input type="hidden" name="variantId" value={variant.id} />
+                      <button className="button-primary w-full" type="submit">
+                        <Send className="h-4 w-4" />
+                        publish via adapter
+                      </button>
+                    </form>
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {variant.guardrailIssues.length > 0 ? (
-                    variant.guardrailIssues.map((issue) => (
-                      <span
-                        key={issue}
-                        className="rounded-full bg-[#fff1ef] px-3 py-1 text-xs font-semibold text-danger"
-                      >
-                        {issue}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="rounded-full bg-[#ecfff2] px-3 py-1 text-xs font-semibold text-success">
-                      no blocking guardrails detected
-                    </span>
-                  )}
-                </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <form action={publishVariantAction}>
-                    <input type="hidden" name="variantId" value={variant.id} />
-                    <button className="button-primary" type="submit">
-                      <Send className="h-4 w-4" />
-                      publish
-                    </button>
-                  </form>
-                  <form action={regenerateVariantsAction}>
-                    <input
-                      type="hidden"
-                      name="contentItemId"
-                      value={variant.contentItemId}
-                    />
-                    <button className="button-secondary" type="submit">
-                      <CopyPlus className="h-4 w-4" />
-                      regenerate pair
-                    </button>
-                  </form>
+                    <form action={regenerateVariantsAction}>
+                      <input
+                        type="hidden"
+                        name="contentItemId"
+                        value={variant.contentItemId}
+                      />
+                      <button className="button-secondary w-full" type="submit">
+                        <Sparkles className="h-4 w-4" />
+                        regenerate both variants
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </article>
-            );
-          })}
+            ))
+          ) : (
+            <div className="rounded-[1.6rem] border border-dashed border-border bg-white/60 p-5 text-sm leading-6 text-muted">
+              No variants yet. Create a content item to populate the queue.
+            </div>
+          )}
         </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <div className="panel rounded-[2rem] p-6">
           {sectionTitle(
             "Registry",
-            "this is the canonical memory: what got posted, where it lives, what proof exists, and what the latest snapshot says.",
+            "every publication becomes a post lab card with metrics, extracted features, evidence, and notes.",
           )}
 
-          <div className="mt-6 grid gap-4">
-            {latestPublications.length === 0 ? (
-              <div className="rounded-[1.5rem] border border-dashed border-border px-5 py-8 text-sm text-muted">
-                nothing in the registry yet. create or import a post and this starts compounding immediately
-              </div>
-            ) : (
+          <div className="mt-6 space-y-4">
+            {latestPublications.length > 0 ? (
               latestPublications.map((publication) => {
                 const snapshot = latestSnapshotFor(
                   publication.id,
                   store.metricSnapshots,
                 );
-                const evidence = store.manualEvidence.filter(
-                  (item) => item.publicationId === publication.id,
+                const notes = latestCommentNotesFor(publication.id, store.commentNotes);
+                const evidence = latestEvidenceFor(publication.id, store.manualEvidence);
+                const assets = assetsForPublication(publication, store.mediaAssets);
+                const featureSet = store.postFeatureSets.find(
+                  (entry) => entry.publicationId === publication.id,
                 );
-                const analysis = analyzePublication(publication, store.manualEvidence);
-                const notes = latestCommentNotesFor(
-                  publication.id,
-                  store.commentNotes,
+                const analysis = analyzePublication(
+                  publication,
+                  store.manualEvidence,
+                  store.metricSnapshots,
                 );
 
                 return (
                   <article
                     key={publication.id}
-                    className="rounded-[1.6rem] border border-border bg-panel-strong p-5"
+                    className="rounded-[1.6rem] border border-border bg-white/70 p-5"
                   >
-                    <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="eyebrow">{publication.platform}</span>
-                          <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
-                            {publication.mode}
-                          </span>
-                          <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
-                            {publication.status}
-                          </span>
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                      <div className="max-w-3xl">
+                        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                          <span>{publication.platform}</span>
+                          <span>{publication.status}</span>
+                          <span>{publication.mode}</span>
+                          {featureSet ? (
+                            <span className="rounded-full bg-white px-2 py-1 text-foreground">
+                              {featureSet.assetFamily.replace(/_/g, " ")}
+                            </span>
+                          ) : null}
                         </div>
-                        <h3 className="mt-2 text-lg font-semibold">
+                        <h3 className="mt-3 break-words text-xl font-semibold leading-8">
                           {publication.title}
                         </h3>
-                        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted">
-                          {publication.finalText.slice(0, 220)}
-                        </p>
+                        <pre className="mt-4 max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-[1.4rem] border border-border bg-panel p-4 font-sans text-sm leading-6">
+                          {publication.finalText}
+                        </pre>
+                        {assets.length > 0 ? (
+                          <div className="mt-4 flex flex-wrap gap-3">
+                            {assets.slice(0, 3).map((asset) => (
+                              <a
+                                key={asset.id}
+                                href={asset.publicUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="block overflow-hidden rounded-[1rem] border border-border bg-panel"
+                              >
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={asset.publicUrl}
+                                  alt={asset.originalName}
+                                  className="h-28 w-28 object-cover"
+                                />
+                              </a>
+                            ))}
+                          </div>
+                        ) : null}
                       </div>
 
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-col gap-3">
                         <form action={syncMetricsAction}>
                           <input
                             type="hidden"
                             name="publicationId"
                             value={publication.id}
                           />
-                          <button className="button-secondary" type="submit">
-                            <Activity className="h-4 w-4" />
+                          <button className="button-secondary w-full" type="submit">
+                            <Sparkles className="h-4 w-4" />
                             sync metrics
                           </button>
                         </form>
+
                         <form action={analyzePublicationAction}>
                           <input
                             type="hidden"
                             name="publicationId"
                             value={publication.id}
                           />
-                          <button className="button-secondary" type="submit">
+                          <button className="button-secondary w-full" type="submit">
                             <Brain className="h-4 w-4" />
                             log analysis
                           </button>
@@ -624,6 +766,15 @@ export default async function Home() {
                           <li>proof: {analysis.proofType}</li>
                           <li>{analysis.likelyReason}</li>
                           <li>{analysis.suggestedNextStep}</li>
+                          {featureSet ? (
+                            <li>
+                              post lab: {featureSet.postingWeekday ?? "—"} at{" "}
+                              {featureSet.postingHour !== undefined
+                                ? `${String(featureSet.postingHour).padStart(2, "0")}:00`
+                                : "—"}{" "}
+                              · {featureSet.lengthBucket} · {featureSet.ctaType}
+                            </li>
+                          ) : null}
                         </ul>
                       </div>
 
@@ -636,7 +787,9 @@ export default async function Home() {
                                 key={note.id}
                                 className="rounded-2xl border border-border bg-panel p-3"
                               >
-                                <p className="font-semibold">{note.authorName}</p>
+                                <p className="font-semibold">
+                                  {note.authorName} · {note.source}
+                                </p>
                                 <p className="text-muted">{note.note}</p>
                               </div>
                             ))
@@ -669,7 +822,10 @@ export default async function Home() {
                       </span>
                     </div>
 
-                    <form action={addCommentNoteAction} className="mt-5 grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
+                    <form
+                      action={addCommentNoteAction}
+                      className="mt-5 grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto]"
+                    >
                       <input type="hidden" name="publicationId" value={publication.id} />
                       <input
                         className="input-base"
@@ -696,6 +852,10 @@ export default async function Home() {
                   </article>
                 );
               })
+            ) : (
+              <div className="rounded-[1.6rem] border border-dashed border-border bg-white/60 p-5 text-sm leading-6 text-muted">
+                No publications in memory yet. Publish or import something first.
+              </div>
             )}
           </div>
         </div>
@@ -703,7 +863,7 @@ export default async function Home() {
         <div className="panel rounded-[2rem] p-6">
           {sectionTitle(
             "Analyst backlog",
-            "quick reads pulled from what is already in the engine so you always have the next move in sight.",
+            "high-signal reads pulled from the current store so the next move is always visible.",
           )}
 
           <div className="mt-6 space-y-4">
@@ -714,13 +874,16 @@ export default async function Home() {
               </div>
               <ul className="mt-3 space-y-2 text-sm leading-6 text-muted">
                 <li>
-                  ugly real screenshots still beat polished graphics when the proof is visible
+                  LinkedIn first means the dashboard should prioritize visible profile lift,
+                  then expand to X later.
                 </li>
                 <li>
-                  LinkedIn safe path is real for posting, but mixed-mode import is the memory unlock
+                  Raw screenshots, comment notes, and synced analytics are finally in the same
+                  memory layer.
                 </li>
                 <li>
-                  X is the easier place to automate first, so the portal should treat it as the primary sync surface
+                  GPT handles the analysis, while Gemini only steps in when image understanding
+                  is actually hard.
                 </li>
               </ul>
             </div>
@@ -733,7 +896,7 @@ export default async function Home() {
               <ol className="mt-3 space-y-3 text-sm leading-6 text-muted">
                 <li>1. Notion Code import flow: repo to tickets to agent execution in one place</li>
                 <li>2. TinyFish proof-of-work hiring story as a build-before-asked thread</li>
-                <li>3. True Weapon: block garbage without blocking the whole site</li>
+                <li>3. Workflow orchestration: what breaks first when 5 projects pile up</li>
               </ol>
             </div>
 
@@ -745,7 +908,7 @@ export default async function Home() {
               <p className="mt-3 text-sm leading-6 text-muted">
                 the job is not fake growth. the job is to remember what you posted,
                 what proof you used, what actually moved, and what story deserves the
-                next rep
+                next rep.
               </p>
             </div>
           </div>

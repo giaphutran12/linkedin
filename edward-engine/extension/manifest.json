@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Edward Engine Local Reader",
+  "version": "0.1.0",
+  "description": "Private local-only LinkedIn reader for Edward Engine.",
+  "permissions": ["tabs", "scripting", "storage"],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:3000/*", "http://127.0.0.1:3000/*"],
+      "js": ["local-bridge.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["linkedin-content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
