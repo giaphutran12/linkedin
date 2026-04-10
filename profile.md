@@ -162,6 +162,13 @@ These are patterns observed from Edward's own revisions — how he naturally edi
    - This applies to ANY list of names, companies, or credentials — always give the reader a 2-3 word anchor before the impressive stuff
    - Brevity is good, but clarity comes first. Don't sacrifice meaning just to be punchy
 
+7. **Do NOT force Dylan-style numbered scaffolding**
+   - The `1. 2. 3.` shell is not Edward's native style
+   - That pattern was borrowed from Dylan / Stanley-style posts and has not translated well to Edward's audience
+   - Copy Dylan's first-line tension and single-thesis discipline, NOT the numbered shell or founder posture
+   - Default to natural flow: hook, scene, tension, lesson, CTA
+   - Only use numbering when the number itself is the point, like a ranked list or an explicit step-by-step sequence
+
 ## Posting Strategy
 
 **Best posting time**: 12:00 AM ICT (8:00 AM PST)
