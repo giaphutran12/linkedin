@@ -215,13 +215,15 @@ need to come BETWEEN them. The harder the problem sounds, the more impressive th
 
 ## Lists and Points
 
-Whenever a post has multiple points, ALWAYS use a numbered system (1. 2. 3.)
-Never use floating bold headers or bullet points without numbers.
-The number comes first, then the plain text label, then the explanation below it.
-Example:
-1. most LinkedIn users are fraud
+Do NOT force a numbered system into normal posts.
+That `1. 2. 3.` pattern was borrowed from Dylan / Stanley-style posts and is not the default for Edward anymore.
 
-myself included...
+Default: write in natural flowing sections with strong scan lines.
 
-2. the world will operate just fine without you
-there are maybe 10 people...
+Use numbering ONLY when the number itself matters:
+- ranked takeaways
+- explicit steps
+- a sequence where the count adds meaning
+
+If the post works without numbers, remove them.
+Natural flow beats visible scaffolding for Edward's audience.
