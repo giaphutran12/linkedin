@@ -5,6 +5,7 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
+| 2026-04-11 | posts/2026-04-11-day-3-it-got-better/ | day 3 launch story — calmer bugs, permission mismatches, race conditions, hardest days behind | draft | — | — | — |
 | 2026-04-10 | posts/2026-04-10-day-2-it-got-worse/ | day 2 launch story — salesforce key expired, Inngest migration broke manual deal sync, incidents stacked fast | published | — | — | — |
 | 2026-04-09 | posts/2026-04-09-day-1-bugs-in-prod/ | day 1 launch story — bugs in prod, edge cases had edge cases, launch day tests calm under pressure | published | — | — | — |
 | 2026-04-01 | posts/2026-04-01-part-3-cli-tools-over-mcp/ | part 3 — CLI tools over MCP servers, saving 10k-15k tokens and reducing workflow drag | published | — | — | — |
