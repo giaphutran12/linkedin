@@ -5,6 +5,7 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
+| 2026-04-25 | posts/2026-04-25-personality-portfolio/ | personality portfolio — interactive wireframe background, smoke hero, cursor dog, and chatbot that knows Edward | draft | — | — | — |
 | 2026-04-25 | posts/2026-04-25-obesity-of-the-mind/ | obesity of the mind — stop pretending to work by scrolling AI/GitHub hype and ship experiments instead | scheduled | — | — | — |
 | 2026-04-11 | posts/2026-04-11-day-3-it-got-better/ | day 3 launch story — calmer bugs, permission mismatches, race conditions, hardest days behind | draft | — | — | — |
 | 2026-04-10 | posts/2026-04-10-day-2-it-got-worse/ | day 2 launch story — salesforce key expired, Inngest migration broke manual deal sync, incidents stacked fast | published | — | — | — |
