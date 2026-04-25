@@ -5,7 +5,8 @@ No need to open LinkedIn to remember what was posted.
 
 | Date | Folder | Topic | Status | Impressions | Likes | Comments |
 |------|--------|-------|--------|-------------|-------|----------|
-| 2026-04-25 | posts/2026-04-25-personality-portfolio/ | personality portfolio — interactive wireframe background, smoke hero, cursor dog, and chatbot that knows Edward | draft | — | — | — |
+| 2026-04-27 | posts/2026-04-27-kimi-k26-design-taste/ | Kimi k2.6 design take — BLI website already feels outdated after Claude design, taste matters 10x more | scheduled | — | — | — |
+| 2026-04-26 | posts/2026-04-26-personality-portfolio/ | personality portfolio — interactive wireframe background, smoke hero, cursor dog, and chatbot that knows Edward | scheduled | — | — | — |
 | 2026-04-25 | posts/2026-04-25-obesity-of-the-mind/ | obesity of the mind — stop pretending to work by scrolling AI/GitHub hype and ship experiments instead | scheduled | — | — | — |
 | 2026-04-16 | posts/2026-04-16-ai-tinkerers-get-cooked/ | AI Tinkerers HCM event promo — live demo of taste-layer web research for frontend agents, cook or get cooked angle | published | — | — | — |
 | 2026-04-11 | posts/2026-04-11-day-3-it-got-better/ | day 3 launch story — calmer bugs, permission mismatches, race conditions, hardest days behind | draft | — | — | — |
@@ -44,6 +45,8 @@ No need to open LinkedIn to remember what was posted.
 ## Notes
 
 - `posts/2026-04-09-day-1-bugs-in-prod/`: posted around 9:53 AM ICT by accident, likely outside the ideal PST-morning window
+- `posts/2026-04-27-kimi-k26-design-taste/`: scheduled for 11:00 PM ICT on 2026-04-27 with `buildlaunchiterate-new-website.mp4`
+- `posts/2026-04-26-personality-portfolio/`: scheduled for 11:45 PM ICT on 2026-04-26 with `portfolio.mp4`
 - `posts/2026-04-25-obesity-of-the-mind/`: scheduled for 11:45 PM ICT on 2026-04-25 with `image.jpeg`
 - `posts/2026-04-01-leetcode-interview-game/`: posted around 12:00 AM ICT
 - `posts/2026-03-30-part-1-managing-5-projects-without-burning-out/`: posted around 3:00 AM ICT
