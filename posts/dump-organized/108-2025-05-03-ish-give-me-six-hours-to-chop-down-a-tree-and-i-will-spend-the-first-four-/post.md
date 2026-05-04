@@ -1,0 +1,11 @@
+"Give me six hours to chop down a tree and I will spend the first four sharpening the axe." – Abraham Lincoln
+I’m excited to share a milestone in my journey at Douglas College’s ITS department: the successful completion of the Whiteboard project—a dynamic internal website that streamlines how we track and manage team shifts, contact information, and announcements.
+This project was built using HTML, CSS, PHP, JavaScript (with AJAX), and MySQL for the database. Interestingly, only about 10% of my time was spent coding, while the other 90% was dedicated to learning new technologies and understanding the core needs of the project. And I believe that’s exactly how successful projects should be approached—focusing not just on the technical side but also on learning and problem-solving.
+Although the Whiteboard isn’t built on the latest cutting-edge frameworks, it serves its purpose well. It provides our team with a clear overview of who is working where, how to contact them, and their roles, both in-person and remotely. To me, a project’s value lies not in its complexity but in its ability to solve real-world problems effectively—and Whiteboard achieves just that.
+When my supervisor assigned this project, I had no prior knowledge of HTML, CSS, PHP, or MySQL. After two months of learning, I was able to build key features like syncing comments and contact details across tables, adding shifts and custom comments, cleaning up outdated code, and organizing shift lists by location.
+The website includes:
+Shift Table: Technicians can share where they’re working, their contact details, and any announcements.
+Contact Table: Quick access to important contacts, such as managers or the Service Desk.
+Person Table: Every department member’s contact info, including role, phone numbers, shift details, and comments.
+Access is restricted to those on the Douglas College network, ensuring that only authorized ITS staff can view and edit the content.
+I'm incredibly grateful for this opportunity to not only enhance our department’s efficiency but also significantly grow my technical skills. This project has taught me that learning and adaptability are just as important as technical execution, and I’m excited for what comes next!

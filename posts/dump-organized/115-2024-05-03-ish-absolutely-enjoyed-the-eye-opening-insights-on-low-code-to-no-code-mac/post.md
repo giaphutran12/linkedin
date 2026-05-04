@@ -1,0 +1,1 @@
+Absolutely enjoyed the eye-opening insights on low-code to no-code Machine Learning here. I had a chance to network with amazing people and learned a lot from them. Thank you GDG Surrey for such a wonderful event!
